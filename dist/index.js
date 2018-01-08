@@ -262,30 +262,20 @@ class App extends ink.Component {
   constructor(...args) {
     var _temp;
 
-    return _temp = super(...args), Object.defineProperty(this, "status", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: {
-        init: 0,
-        install: 1,
-        link: 2,
-        done: 3,
-        fail: 4
-      }
-    }), Object.defineProperty(this, "state", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: {
-        status: this.status.init,
-        installProgress: 0,
-        installMax: 0,
-        links: {},
-        linkProgress: 0,
-        linkMax: 0
-      }
-    }), _temp;
+    return _temp = super(...args), this.status = {
+      init: 0,
+      install: 1,
+      link: 2,
+      done: 3,
+      fail: 4
+    }, this.state = {
+      status: this.status.init,
+      installProgress: 0,
+      installMax: 0,
+      links: {},
+      linkProgress: 0,
+      linkMax: 0
+    }, _temp;
   }
 
   /**
