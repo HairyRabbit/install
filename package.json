@@ -1,0 +1,53 @@
+{
+    "name": "rabbit-library-install",
+    "version": "0.0.1",
+    "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/HairyRabbit/library-install.git"
+    },
+    "author": "Rabbit <yfhj1990@hotmail.com>",
+    "license": "GPL-3.0",
+    "description": "Library installer",
+    "bugs": {
+        "url": "https://github.com/HairyRabbit/library-install/issues"
+    },
+    "homepage": "https://github.com/HairyRabbit/library-install#readme",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "start": "rollup -c && node dist/index.js",
+        "test": "jest"
+    },
+    "keywords": [],
+    "peerDependencies": {},
+    "devDependencies": {
+        "@babel/core": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-class-properties": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-decorators": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-export-namespace-from": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.36",
+        "@babel/plugin-proposal-throw-expressions": "^7.0.0-beta.36",
+        "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.36",
+        "@babel/preset-env": "^7.0.0-beta.36",
+        "@babel/preset-flow": "^7.0.0-beta.36",
+        "@babel/preset-react": "^7.0.0-beta.36",
+        "@std/esm": "^0.18.0",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-jest": "^22.0.4",
+        "jest": "^22.0.4",
+        "rollup": "^0.53.3",
+        "rollup-plugin-babel": "^4.0.0-beta.0",
+        "rollup-plugin-commonjs": "^8.2.6",
+        "rollup-plugin-json": "^2.3.0",
+        "rollup-plugin-node-resolve": "^3.0.0"
+    },
+    "@std/esm": "cjs",
+    "dependencies": {
+        "ink": "^0.3.0",
+        "ink-progress-bar": "^2.0.1",
+        "jquery": "^3.2.1"
+    }
+}
