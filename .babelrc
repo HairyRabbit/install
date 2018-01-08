@@ -3,13 +3,14 @@
         "@babel/preset-react",
         "@babel/preset-flow",
         ["@babel/preset-env", {
-            "target": {
+            "targets": {
                 "node": true
             },
             "modules": false,
             "loose": true
         }]],
     "plugins": [
+        // "@babel/plugin-proposal-decorators",
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-export-namespace-from",
@@ -17,7 +18,8 @@
             "useBuiltIns": true
         }],
         "@babel/plugin-syntax-dynamic-import",
-        "babel-plugin-lodash"
+        // "babel-plugin-lodash"
+        "@babel/plugin-proposal-throw-expressions"
     ],
     "env": {
         "test": {
