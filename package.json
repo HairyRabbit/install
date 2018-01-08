@@ -1,0 +1,40 @@
+{
+  "name": "library-install",
+  "version": "0.0.1",
+  "description": "Library installer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r @std/esm lib/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/HairyRabbit/library-install.git",
+  "keywords": [],
+  "author": "rabbit <yfhj1990@hotmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HairyRabbit/library-install/issues"
+  },
+  "homepage": "https://github.com/HairyRabbit/library-install#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.36",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0-beta.36",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
+    "@babel/preset-flow": "^7.0.0-beta.36",
+    "@babel/preset-react": "^7.0.0-beta.36",
+    "@std/esm": "^0.18.0",
+    "babel-loader": "^7.1.2",
+    "webpack": "^4.0.0-alpha.4",
+    "webpack-cli": "^2.0.2"
+  },
+  "@std/esm": "cjs",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery1": "^3.0.0-pre"
+  }
+}
