@@ -398,7 +398,7 @@ class App extends ink.Component {
 
   _reduce() {
     const links = this.state.links;
-    const sum = Object.keys(links).map(key => links[key].progress).reduce((a, b) => a + b);
+    const sum = Object.keys(links).map(key => links[key].progress).reduce((a, b) => a + b, 0);
     return sum / this.state.linkMax;
   }
 
@@ -408,7 +408,7 @@ class App extends ink.Component {
         return this.renderProgressBar(this.state.installProgress, 'green');
 
       case this.status.link:
-        return this.renderProgressBar(this.state.linkProgress, 'yellow');
+        return this.renderProgressBar(this.state.linkProgress, 'blue');
 
       default:
         return null;

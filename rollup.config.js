@@ -10,7 +10,8 @@ export default {
   input: path.resolve('lib/index.js'),
   output: {
     file: path.resolve('dist/index.js'),
-    format: 'cjs'
+    format: 'cjs',
+    exports: 'named'
   },
   plugins: [
     resolve(),
@@ -18,6 +19,5 @@ export default {
     json({ exclude: 'node_modules/**' }),
     commonjs({ exclude: 'node_modules/**' })
   ],
-  external: ['ink', 'ink-progress-bar'],
-  exports: 'named'
+  external: ['ink', 'ink-progress-bar']
 }

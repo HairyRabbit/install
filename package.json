@@ -41,10 +41,16 @@
         "rollup-plugin-babel": "^4.0.0-beta.0",
         "rollup-plugin-commonjs": "^8.2.6",
         "rollup-plugin-json": "^2.3.0",
-        "rollup-plugin-node-resolve": "^3.0.0"
+        "rollup-plugin-node-resolve": "^3.0.0",
+        "snazzy": "^7.0.0",
+        "standard": "^8.6.0"
     },
     "dependencies": {
         "ink": "^0.3.0",
-        "ink-progress-bar": "^2.1.0"
+        "ink-progress-bar": "^2.1.0",
+        "jquery": "^3.2.1",
+        "react": "^16.2.0",
+        "react-router-redux": "^5.0.0-alpha.8",
+        "redux": "^3.7.2"
     }
 }
