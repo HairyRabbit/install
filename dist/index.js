@@ -4,10 +4,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
+var which = require('which');
+var fs = require('fs');
+var path = _interopDefault(require('path'));
 var os = require('os');
 var child_process = require('child_process');
 var assert = _interopDefault(require('assert'));
-var readline = _interopDefault(require('readline'));
 
 var _sPO = Object.setPrototypeOf || function _sPO(o, p) {
   o.__proto__ = p;
@@ -27,28 +29,6 @@ var _construct = typeof Reflect === "object" && Reflect.construct || function _c
  *
  * 
  */
-const status = {
-  ready: Symbol('ready'),
-  download: Symbol('download'),
-  link: Symbol('link'),
-  done: Symbol('done')
-};
-const DefaultStatus = status.ready;
-function next(st) {
-  switch (st) {
-    case status.ready:
-      return status.download;
-
-    case status.download:
-      return status.link;
-
-    case status.link:
-      return status.done;
-
-    case status.done:
-      return status.done;
-  }
-}
 
 /**
  * add process flag, install packages to:
@@ -84,9 +64,7 @@ function toString(flag) {
  */
 class Provider {
   constructor(name, installCmd = 'add', options = Options) {
-    this.state = {
-      status: DefaultStatus
-    };
+    this._beginAt = void 0;
     this.name = name;
     this.installCmd = installCmd;
     this.options = options;
@@ -176,65 +154,20 @@ class Provider {
     });
   }
 
-}
+  onProcess(data, resolve, reject) {}
 
-/**
- * render a progress bar
- *
- * 
- */
-class Bar {
-  constructor(progress = 0, columns = process.stderr.columns || 60, char = '=', pad = ' ', stdout = process.stderr) {
-    this.columns = columns;
-    this._progress = progress;
-    this.char = char;
-    this.pad = pad;
-    this.stdout = stdout;
-  }
-  /**
-   * render a progress bar
-   *
-   * @TODO increment update
-   */
+  onError(error, resolve, reject) {}
 
-
-  render() {
-    const {
-      _progress: progress,
-      columns,
-      stdout,
-      char,
-      pad
-    } = this;
-    const left = Math.floor(progress * columns);
-    const right = columns - left;
-    const out = char.repeat(left) + pad.repeat(right);
-    stdout.write(out);
-    stdout.write(' ' + (progress * 100).toFixed(2) + '%');
-    return this;
-  }
-  /**
-   * earse for rerender
-   */
-
-
-  earse() {
-    const stdout = this.stdout;
-    readline.clearLine(stdout, 0);
-    readline.cursorTo(stdout, 0);
-    return this;
+  onBegin(installOptions, resolve, reject) {
+    this._beginAt = Date.now();
+    return installOptions;
   }
 
-  get progress() {
-    return this._progress;
-  }
-
-  set progress(val) {
-    if (val > 1 || val < 0) {
-      throw new Error(`The progress should between 0 and 1.`);
-    } else if (this._progress !== val) {
-      this._progress = val;
-      this.earse().render();
+  onDone(code, resolve, reject) {
+    if (code === 0) {
+      return resolve(Date.now() - this._beginAt);
+    } else {
+      return reject(new Error(`Install task failed.`));
     }
   }
 
@@ -246,161 +179,91 @@ class Bar {
  * 
  */
 const DefaultOptions = {
-  addOptions: ['--prefer-offline', '--json']
+  addOptions: ['--prefer-offline', '--silent', '--no-progress']
 };
-
 class Yarn extends Provider {
-  constructor() {
-    super('yarn', 'add', DefaultOptions);
-    this.downloaded = false;
-    this.max = 0;
-    this.progress = 0;
-    this.links = {};
-    this.result = null;
-    this.timer = null;
-    this.working = false;
-    this.timeout = 800;
-    this.progressBar = new Bar(0, 40, '#', '-');
+  constructor(options = DefaultOptions) {
+    super('yarn', 'add', options);
   }
 
-  onProcess(data, resolve, reject) {
-    // if(this.working) return
-    // this.working = true
-    // clearTimeout(this.timer)
-    // this.timer = setTimeout(() => {
-    //   this.working = false
-    // }, this.timeout)
-    const status$$1 = this.state.status;
-    const datas = parse(data);
-    const len = datas.length;
-    if (!len) return;
-    datas.forEach(data => {
-      const type = data.type;
-      const {
-        message,
-        id,
-        total,
-        current,
-        trees
-      } = data.data;
+}
 
-      switch (status$$1) {
-        case status.ready:
-          if ('step' === type && 'Fetching packages' === message) {
-            this.state.status = next(status$$1);
-            break;
-          }
-
-          break;
-
-        case status.download:
-          if ('progressStart' === type) {
-            this.max = total;
-            break;
-          } else if ('progressTick' === type) {
-            this.progress = current / this.max;
-            break;
-          } else if (type === 'step' && 'Linking dependencies' === message) {
-            this.state.status = next(status$$1);
-            this.downloaded = true;
-            this.progress = 0;
-            this.max = 0;
-            break;
-          }
-
-          break;
-
-        case status.link:
-          if ('progressStart' === type && total && ~[2, 5].indexOf(id)) {
-            this.links[id] = {
-              progress: 0
-            };
-            this.max += total;
-            break;
-          } else if ('progressTick' === type) {
-            this.links[id].progress = current;
-            this.progress = this.reduceProgress();
-            break;
-          } else if ('success' === type) {
-            this.progress = 1;
-            this.state.status = next(status$$1);
-            break;
-          }
-
-          break;
-
-        case status.done:
-          if ('tree' === type) {
-            this.result = trees;
-            break;
-          }
-
-          break;
-
-        default:
-          break;
-      }
-    });
-
-    if (!this.options.quiet) {
-      this.render();
-    }
+/**
+ * npm provider
+ *
+ * 
+ */
+const DefaultOptions$2 = {
+  addOptions: ['--silent', '--no-progress']
+};
+class Npm extends Provider {
+  constructor(options = DefaultOptions$2) {
+    super('npm', 'install', options);
   }
 
-  reduceProgress() {
-    const links = this.links;
-    const sum = Object.keys(links).map(key => links[key].progress).reduce((a, b) => a + b, 0);
-    return sum / this.max;
+}
+
+/**
+ * find cmder
+ *
+ * 
+ */
+/**
+ * @testable
+ */
+function useable() {
+  const options = {
+    path: process.env.PATH || process.env.Path,
+    nothrow: true
+  };
+  return [which.sync('yarn', options), which.sync('npm', options)];
+}
+
+function checkLockFileExists(flag) {
+  const current = process.cwd();
+
+  switch (flag) {
+    case 'yarn':
+      return fs.existsSync(path.resolve(current, 'yarn.lock'));
+
+    case 'npm':
+      return fs.existsSync(path.resolve(current, 'package-lock.json'));
+
+    default:
+      return false;
   }
+}
+function finder(options) {
+  const [yarn, npm] = useable();
 
-  onBegin(installOptions, resolve, reject) {
-    this.progressBar.render();
-    return installOptions;
-  }
-
-  onError(error, resolve, reject) {
-    reject(new Error(error));
-  }
-
-  onDone(code, resolve, reject) {
-    if (code === 0) {
-      /**
-       * report result
-       */
-      if (!this.options.quiet && this.options.report) {
-        console.log(this.result);
-      }
-      /**
-       * done and exit
-       */
-
-
-      return resolve();
+  if (yarn ^ npm) {
+    if (!yarn) {
+      throw new Error(`Can't find yarn or npm in your PATH`);
     } else {
       /**
-       * task failed
+       * now npm and yarn are all useable.
+       * then check the yarn.lock or package-lock.json
+       * but, why not use yarn by default ???
        */
-      return reject(new Error(`Install task failed.`));
+      if (checkLockFileExists('yarn')) {
+        return new Yarn(options);
+      } else if (checkLockFileExists('npm')) {
+        return new Npm(options);
+      } else {
+        /**
+         * maybe a green project :)
+         */
+        return new Yarn(options);
+      }
+    }
+  } else {
+    if (yarn) {
+      return new Yarn(options);
+    } else {
+      return new Npm(options);
     }
   }
-
-  render() {
-    const {
-      status: status$$1
-    } = this.state;
-    const {
-      progress
-    } = this;
-    this.progressBar.progress = progress;
-  }
-
 }
-
-function parse(input) {
-  return input.split('\n').filter(s => s.trim()).map(JSON.parse);
-}
-
-var yarn = new Yarn();
 
 /**
  * library-install
@@ -426,7 +289,7 @@ var yarn = new Yarn();
 // import { spawn } from 'child_process'
 // import { h, render, Component, Text, Indent } from 'ink'
 // import ProgressBar from 'ink-progress-bar'
-// // yarn add --prefer-offline --dev @babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-export-default-from @babel/plugin-proposal-export-namespace-from @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-proposal-decorators @babel/plugin-proposal-throw-expressions @babel/preset-env @babel/preset-flow @babel/preset-react
+// yarn add --prefer-offline --dev @babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-export-default-from @babel/plugin-proposal-export-namespace-from @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-proposal-decorators @babel/plugin-proposal-throw-expressions @babel/preset-env @babel/preset-flow @babel/preset-react
 // // yarn add --prefer-offline --json --dev rollup rollup-plugin-node-resolve roll up-plugin-babel rollup-plugin-json rollup-plugin-commonjs
 // // yarn add --prefer-offline --json --dev jest babel-jest babel-core@7.0.0-bridge.0
 // export const cmder = {
@@ -802,8 +665,18 @@ var yarn = new Yarn();
 //   }
 // }
 // var a = render(<App libs={['jquery', 'react']} />)
-console.log('Task:', 'jquery');
-yarn.install('jquery', Object.assign({}, DefaultOptions, {
-  addOptions: [...DefaultOptions.addOptions, '--ignore-optional']
-})); //.catch(err => throw new Error(err))
+// import yarn, { DefaultOptions } from './yarn'
+// console.log('Task:', 'jquery')
+// yarn.install('jquery', {
+//   ...DefaultOptions,
+//   addOptions: [
+//     ...DefaultOptions.addOptions,
+//     '--ignore-optional'
+//   ]
+// })
+//.catch(err => throw new Error(err))
 //.catch(() => {})
+// import Npm from './npm'
+// const npm = new Npm()
+// npm.install('jquery').then(console.log, console.log)
+finder().install('jquery').then(console.log, console.log);

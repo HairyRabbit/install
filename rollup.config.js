@@ -19,5 +19,5 @@ export default {
     json({ exclude: 'node_modules/**' }),
     commonjs({ exclude: 'node_modules/**' })
   ],
-  external: ['ink', 'ink-progress-bar']
+  external: ['which']
 }

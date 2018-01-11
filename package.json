@@ -46,12 +46,7 @@
         "standard": "^8.6.0"
     },
     "dependencies": {
-        "ink": "^0.3.0",
-        "ink-progress-bar": "^2.1.0",
         "jquery": "^3.2.1",
-        "react": "^16.2.0",
-        "react-router-redux": "^5.0.0-alpha.8",
-        "readline": "^1.3.0",
-        "redux": "^3.7.2"
+        "which": "^1.3.0"
     }
 }
