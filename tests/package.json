@@ -1,9 +1,8 @@
 {
-    "name": "test",
-    "version": "0.0.0",
-    "license": "UNLICENSED",
-    "dependencies": {
-        "jquery": "^3.2.1",
-        "json": "^9.0.6"
-    }
+	"name": "test",
+	"version": "0.0.0",
+	"license": "UNLICENSED",
+	"dependencies": {},
+	"peerDependencies": {},
+	"devDependencies": {}
 }
