@@ -2,7 +2,7 @@
  * installer cli
  */
 
-const { default: install, parselib, reverseflag } = require('../dist')
+const { default: install, parselib, parseflag } = require('../dist')
 const { toString } = require('../')
 const argv = process.argv.slice(2)
 
@@ -18,7 +18,7 @@ function parse(argv) {
     for(let i = 0; i < len; i++) {
       const arg = argv[i]
       if(~['-D', '--dev', '-P', '--prod', '-O', '--optional'].indexOf(arg)) {
-        flags.push(reverseflag(arg))
+        flags.push(parseflag(arg))
       } else if(arg.startsWith('--')) {
         options.push(arg)
         break
