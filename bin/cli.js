@@ -1,6 +1,4 @@
-/**
- * installer cli
- */
+#!/usr/bin/env node
 
 const { default: install, parselib, parseflag } = require('../dist')
 const { toString } = require('../')
