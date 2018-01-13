@@ -1631,10 +1631,6 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flow-bin@^0.62.0:
-  version "0.62.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
-
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -3033,47 +3029,6 @@ qs@~6.4.0:
 qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
-
-rabbit-install@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.1.tgz#274df28588993f29e9108d0c8b0f15504061d581"
-  dependencies:
-    which "^1.3.0"
-
-rabbit-install@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.2.tgz#e3fc7c95d6ba4157f418649405b8ff248bd0ed07"
-  dependencies:
-    rabbit-install "^0.0.1"
-    which "^1.3.0"
-
-rabbit-install@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.3.tgz#30b66d75819ece9541d30af53b9025997b3c4fe5"
-  dependencies:
-    rabbit-install "^0.0.2"
-    which "^1.3.0"
-
-rabbit-install@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.4.tgz#f6756604cdbe85e82886f936e286d936036fc7fb"
-  dependencies:
-    rabbit-install "^0.0.3"
-    which "^1.3.0"
-
-rabbit-install@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.5.tgz#d61af937f91f0a6e94519f7b868a8a94ac9c4e3a"
-  dependencies:
-    rabbit-install "^0.0.4"
-    which "^1.3.0"
-
-rabbit-install@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/rabbit-install/-/rabbit-install-0.0.6.tgz#1986b2269e2c5844f421a5cd51980f087281bf30"
-  dependencies:
-    rabbit-install "^0.0.5"
-    which "^1.3.0"
 
 randomatic@^1.1.3:
   version "1.1.7"
