@@ -91,7 +91,7 @@ beforeEach(() => {
 
 test('install framework components', (done) => {
   Promise.resolve()
-    .then(() => install([buildin.redux, buildin.router], { cwd: current }))
+    .then(() => install(['babel.', 'webpack.']))
     .then(() => writepkg(pkg => {
       // pkg.devDependencies['react'] = '42'
     }))
