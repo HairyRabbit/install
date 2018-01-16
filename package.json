@@ -1,6 +1,6 @@
 {
     "name": "@rabbitcc/install",
-    "version": "0.0.6",
+    "version": "0.0.8",
     "main": "dist/index.js",
     "files": [
         "dist",
@@ -9,26 +9,28 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/HairyRabbit/library-install.git"
+        "url": "git+ssh://git@github.com/HairyRabbit/install.git"
     },
     "author": "Rabbit <yfhj1990@hotmail.com>",
     "license": "GPL-3.0",
     "description": "Library installer",
     "bugs": {
-        "url": "https://github.com/HairyRabbit/library-install/issues"
+        "url": "https://github.com/HairyRabbit/install/issues"
     },
-    "homepage": "https://github.com/HairyRabbit/library-install#readme",
+    "homepage": "https://github.com/HairyRabbit/install#readme",
     "directories": {
         "lib": "lib"
     },
     "scripts": {
         "start": "yarn build && cross-env NODE_ENV=development node dist/index.js",
-        "test": "jest",
+        "test": "jest tests/.*.test.js",
+        "test:spec": "jest tests/.*.spec.js",
         "test:type": "flow",
-        "test:coverage": "jest --coverage",
+        "test:coverage": "yarn test --coverage",
         "build": "cross-env NODE_ENV=development yarn rollup -c",
-        "build:production": "cross-env NODE_ENV=production yarn rollup -c",
-        "build:type": "flow gen-flow-files lib/index.js > dist/simple-progress-bar.js.flow"
+        "build:prod": "cross-env NODE_ENV=production yarn rollup -c",
+        "build:type": "flow gen-flow-files lib/index.js > dist/install.js.flow",
+        "prepublish": "yarn test:coverage && yarn test:type && yarn build:prod && yarn build:type"
     },
     "keywords": [],
     "devDependencies": {

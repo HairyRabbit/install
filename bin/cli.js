@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-const { default as install, parseOpts } = require('../dist')
+const { default: install, parseOpts } = require('../dist')
 const argv = process.argv.slice(2)
 const args = parseOpts(argv)
+args.push(true)
 
 /**
  * start install process, throw when task failed.

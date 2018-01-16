@@ -2,7 +2,7 @@
  * @jest
  */
 
-import path from 'path'
+import fs from 'fs'
 import { D, O, P } from '../lib/flag'
 import install from '../lib'
 
@@ -12,6 +12,15 @@ jest.mock('../lib/cmder', () => {
       install(libs, options) {
         return Promise.resolve({ libs, options })
       }
+    }
+  }
+})
+
+jest.mock('fs', () => {
+  return {
+    accessSync() { return true },
+    readFileSync() {
+      return '{}'
     }
   }
 })
@@ -27,27 +36,8 @@ test('should override options', () => {
     options: {
       flag: O,
       addOptions: [],
-      spawnOptions: {}
-    }
-  })
-})
-
-test('should override options by user options', () => {
-  return expect(install(['jquery', 'babel.'], { flag: O })).resolves.toEqual({
-    libs: [
-      'jquery',
-      '@babel/core',
-      '@babel/preset-env',
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-export-default-from',
-      '@babel/plugin-proposal-export-namespace-from',
-      '@babel/plugin-syntax-dynamic-import',
-      '@babel/plugin-proposal-throw-expressions'
-    ],
-    options: {
-      flag: O,
-      addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -62,7 +52,8 @@ test('install normal module', () => {
     options: {
       flag: P,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -81,7 +72,8 @@ test('install library', () => {
     options: {
       flag: D,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -101,7 +93,8 @@ test('install multi module, mixed library and normal module', () => {
     options: {
       flag: D,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -132,34 +125,29 @@ test('install multi library', () => {
     options: {
       flag: D,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
 
-test('shoule run hook for installed library', () => {
-  jest.doMock(path.resolve('./package.json'), () => {
-    return {
-      devDependencies: {
-        "webpack": "42"
-      }
-    }
-  }, { virtual: true })
-  return expect(install(['babel.'])).resolves.toEqual({
+test('should override options by user options', () => {
+  return expect(install(['jquery', 'babel.'], { flag: O })).resolves.toEqual({
     libs: [
+      'jquery',
       '@babel/core',
       '@babel/preset-env',
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-proposal-export-default-from',
       '@babel/plugin-proposal-export-namespace-from',
       '@babel/plugin-syntax-dynamic-import',
-      '@babel/plugin-proposal-throw-expressions',
-      'babel-loader'
+      '@babel/plugin-proposal-throw-expressions'
     ],
     options: {
-      flag: D,
+      flag: O,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -192,7 +180,8 @@ test('install multi modules, mixed multi library and normal modules', () => {
     options: {
       flag: D,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
     }
   })
 })
@@ -223,7 +212,31 @@ test('should do uniq', () => {
     options: {
       flag: D,
       addOptions: [],
-      spawnOptions: {}
+      spawnOptions: {},
+      log: false
+    }
+  })
+})
+
+
+test('shoule run hook for installed library', () => {
+  fs.readFileSync = jest.fn(() => '{"dependencies": {"webpack":"42"}}')
+  return expect(install(['babel.'])).resolves.toEqual({
+    libs: [
+      '@babel/core',
+      '@babel/preset-env',
+      '@babel/plugin-proposal-class-properties',
+      '@babel/plugin-proposal-export-default-from',
+      '@babel/plugin-proposal-export-namespace-from',
+      '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-proposal-throw-expressions',
+      'babel-loader'
+    ],
+    options: {
+      flag: D,
+      addOptions: [],
+      spawnOptions: {},
+      log: false
     }
   })
 })

@@ -83,5 +83,3 @@ Please see the build-in [libaraies](/lib/library).
 ## Contribute
 
 Any idea plase send me [issue](https://github.com/HairyRabbit/library-install/issues/new)
-
-:heart_kiss:
