@@ -2,7 +2,7 @@
 
 A tool for install library.
 
-## Story
+## The Story
 
 Think about if you want to create a new frontend project and use babel.
 
@@ -19,46 +19,69 @@ yarn add --dev
 @babel/plugin-proposal-throw-expressions
 ```
 
-too many plugins need to install. Use this tool made it easy:
+Ooops, too many plugins need to install.
 
-```sh
-rabi babel.
-```
-
-and then. we also need webpack to bundle our project. So we need install `webpack` and its plugins:
+Then, we maybe need use webpack to bundle our project. So we need install `webpack` and its plugins:
 
 ```sh
 yarn add --dev
 webpack webpack-dev webpack-cli
-css-loader style-loader file-loader
-url-loader extract-text-webpack-plugin
+css-loader style-loader extract-text-webpack-plugin
+file-loader url-loader
 html-webpack-plugin html-webpack-template
 uglifyjs-webpack-plugin
 ```
 
-Lost somthing? Yes, the `babel-loader`.
+Hummm, Somthing lost? Yeap, the `babel-loader`.
 
 ```sh
 yarn add babel-loader
 ```
 
-so, this tool let make it easy:
+
+## The Solution
+
+Just type below command that **ends with dot**:
+
+```sh
+rabi babel.
+```
+
+also with the webpack
 
 ```sh
 rabi webpack.
 ```
 
-And... Many library can be composed, like:
+`rabi` will install `babel-loader` by default.
+
+
+sort by:
 
 ```sh
-react + redux = react-redux
-react + router = [react-router, react-router-dom]
-redux + router = [react-router-redux]
+rabi babel. webpack.
 
+```
+
+If think about the dependencies. We can find many library can be composed, like:
+
+```sh
+// buildtools
 babel + flow = @babel/presets-flow
 babel + jest = [babel-jest, babel-core@7.0.0-bridge.0]
 babel + rollup = rollup-plugin-babel
+
+// frameworks
+react + redux = react-redux
+react + router = [react-router, react-router-dom]
+redux + router = [react-router-redux]
 ```
 
+Please see the build-in [libaraies](/lib/library).
 
-## Usage
+
+## Contribute
+
+Any idea plase send me [issue](https://github.com/HairyRabbit/library-install/issues/new)
+
+:heart_kiss:
