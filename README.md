@@ -44,7 +44,17 @@ yarn add babel-loader
 Just type below command that **ends with dot**:
 
 ```sh
+# global install
+yarn global add @rabbitcc/install
+npm install -g @rabbitcc/install
+
 rabi babel.
+
+# or install on local
+yarn add @rabbitcc/install
+npm i @rabbitcc/install
+
+yarn rabi babel.
 ```
 
 also with the webpack
@@ -56,7 +66,7 @@ rabi webpack.
 `rabi` will install `babel-loader` by default.
 
 
-sort by:
+short for:
 
 ```sh
 rabi babel. webpack.
@@ -77,7 +87,12 @@ react + router = [react-router, react-router-dom]
 redux + router = [react-router-redux]
 ```
 
-Please see the build-in [libaraies](/lib/library).
+More available please see the build-in [libaraies](/lib/library).
+
+
+## Todos
+
+- [ ] Auto install config file after installed, e.g. `babel.` with `.babelrc`
 
 
 ## Contribute
