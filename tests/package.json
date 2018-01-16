@@ -4,7 +4,5 @@
 	"license": "UNLICENSED",
 	"dependencies": {},
 	"peerDependencies": {},
-	"devDependencies": {
-		"rabbit-install": "^0.0.6"
-	}
+	"devDependencies": {}
 }

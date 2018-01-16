@@ -6,6 +6,6 @@ module.exports.spawn = function() {
     stderr: {
       on(str, cb) { cb('') }
     },
-    on(str, cb) { cb(0) }
+    on(str, cb) { cb(2) }
   }
 }
