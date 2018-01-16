@@ -1,6 +1,6 @@
 {
     "name": "@rabbitcc/install",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "main": "dist/index.js",
     "files": [
         "dist",
@@ -26,12 +26,11 @@
         "test": "jest tests/.*.test.js",
         "test:spec": "jest tests/.*.spec.js",
         "test:type": "flow",
-        "test:coverage": "jest --coverage",
+        "test:coverage": "yarn test --coverage",
         "build": "cross-env NODE_ENV=development yarn rollup -c",
         "build:prod": "cross-env NODE_ENV=production yarn rollup -c",
         "build:type": "flow gen-flow-files lib/index.js > dist/install.js.flow",
-        "prepublish": "yarn test:coverage && yarn test:type && yarn build:prod && build:type",
-        "publish": "yarn prepublish && yarn publish"
+        "prepublish": "yarn test:coverage && yarn test:type && yarn build:type && yarn build:prod"
     },
     "keywords": [],
     "devDependencies": {
