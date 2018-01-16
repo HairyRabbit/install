@@ -14,6 +14,7 @@ test('constructor', () => {
   expect(provider.installCmd).toBe('bar')
   expect(provider.options).toEqual({
     flag: P,
+    log: false,
     addOptions: [],
     spawnOptions: {}
   })
@@ -39,7 +40,7 @@ test('make simple options', () => {
     value: null
   })
   expect(provider.makeOptions(['baz'], merge()))
-    .toEqual(['foo', ['bar', 'baz', ''], {}])
+    .toEqual(['foo', ['bar', 'baz', '--silent', '--no-progress'], {}])
 })
 
 test('make complex options', () => {
@@ -48,16 +49,7 @@ test('make complex options', () => {
     value: null
   })
   expect(provider.makeOptions(['baz', 'qux'], merge({ flag: D })))
-    .toEqual(['foo', ['bar', 'baz', 'qux', '-D'], {}])
-})
-
-test('match cmd name for win platform', () => {
-  const provider = new Provider('foo', 'bar', {})
-  Object.defineProperty(process, 'platform', {
-    value: 'win32'
-  })
-  expect(provider.makeOptions(['baz'], merge()))
-    .toEqual(['foo.cmd', ['bar', 'baz', ''], {}])
+    .toEqual(['foo', ['bar', 'baz', 'qux', '-D', '--silent', '--no-progress'], {}])
 })
 
 test('pass to spawn options', () => {
@@ -70,7 +62,7 @@ test('pass to spawn options', () => {
       stdio: 'pipe'
     }
   })))
-    .toEqual(['foo', ['bar', 'baz', ''], {
+    .toEqual(['foo', ['bar', 'baz', '--silent', '--no-progress'], {
       stdio: 'pipe'
     }])
 })
@@ -83,7 +75,7 @@ test('render the flag', () => {
   expect(provider.makeOptions(['baz'], merge({
     flag: O
   })))
-    .toEqual(['foo', ['bar', 'baz', '-O'], {}])
+    .toEqual(['foo', ['bar', 'baz', '-O', '--silent', '--no-progress'], {}])
 })
 
 /**

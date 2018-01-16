@@ -6,7 +6,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import pkg from './package.json'
 
-export default [{
+export default {
   input: path.resolve('lib/index.js'),
   output: {
     file: path.resolve('dist/index.js'),
@@ -19,23 +19,5 @@ export default [{
     json({ exclude: 'node_modules/**' }),
     commonjs({ exclude: 'node_modules/**' })
   ],
-  external: ['which']
-}].concat([
-  'babel', 'flow', 'jest', 'webpack', 'rollup',
-  'postcss', 'sass', 'lodash', 'react', 'redux',
-  'router'
-].map(lib => ({
-  input: path.resolve(`lib/components/${lib}.js`),
-  output: {
-    file: path.resolve(`dist/components/${lib}.js`),
-    format: 'cjs',
-    exports: 'named'
-  },
-  plugins: [
-    resolve(),
-    babel({ exclude: 'node_modules/**' }),
-    json({ exclude: 'node_modules/**' }),
-    commonjs({ exclude: 'node_modules/**' })
-  ],
   external: ['which', 'pkg-up']
-})))
+}
