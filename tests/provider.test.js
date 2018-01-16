@@ -6,7 +6,21 @@ import { D, P, O } from '../lib/flag'
 import Provider from '../lib/provider'
 import merge from '../lib/optionsCombiner'
 
-jest.mock('child_process')
+jest.mock('child_process', () => {
+  return {
+    spawn() {
+      return {
+        stdout: {
+          on(str, cb) { cb('') }
+        },
+        stderr: {
+          on(str, cb) { cb('') }
+        },
+        on(str, cb) { cb(2) }
+      }
+    }
+  }
+})
 
 test('constructor', () => {
   const provider = new Provider('foo', 'bar')
