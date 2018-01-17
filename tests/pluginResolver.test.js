@@ -15,7 +15,7 @@ test('should return null, when can\'t find any plugins', () => {
 })
 
 test('resolve library', () => {
-  jest.mock(path.resolve('./package.json'), () => {
+  jest.doMock(path.resolve('./package.json'), () => {
     return {
       devDependencies: {
         "@rabbitcc/install-library-foo": "@rabbitcc/install-library-foo"
@@ -23,15 +23,11 @@ test('resolve library', () => {
     }
   }, { virtual: true })
 
-  jest.mock('@rabbitcc/install-library-foo', () => {
-    return {
-      id: 'foo'
+  jest.doMock('@rabbitcc/install-library-foo', () => {
+    return class {
+      id = 'foo'
     }
   }, { virtual: true })
 
-  expect(resolve()).toEqual({
-    library: {
-      foo: { id: 'foo' }
-    }
-  })
+  expect(typeof resolve().library.foo).toEqual('function')
 })

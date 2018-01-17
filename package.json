@@ -23,7 +23,7 @@
     },
     "scripts": {
         "start": "yarn build && cross-env NODE_ENV=development node dist/index.js",
-        "test": "jest tests/.*.test.js",
+        "test": "cross-env NODE_NO_READLINE=1 jest tests/.*.test.js --color",
         "test:spec": "jest tests/.*.spec.js",
         "test:type": "flow",
         "test:coverage": "yarn test --coverage",
@@ -56,7 +56,8 @@
         "rollup-plugin-json": "^2.3.0",
         "rollup-plugin-node-resolve": "^3.0.0",
         "snazzy": "^7.0.0",
-        "standard": "^8.6.0"
+        "standard": "^8.6.0",
+        "eslint-plugin-flowtype": "^2.40.1"
     },
     "bin": {
         "rabi": "./bin/cli.js"
