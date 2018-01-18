@@ -6,20 +6,8 @@ import { D, P, O } from '../lib/flag'
 import Provider from '../lib/provider'
 import merge from '../lib/optionsCombiner'
 
-jest.mock('child_process', () => {
-  return {
-    spawn() {
-      return {
-        stdout: {
-          on(str, cb) { cb('') }
-        },
-        stderr: {
-          on(str, cb) { cb('') }
-        },
-        on(str, cb) { cb(2) }
-      }
-    }
-  }
+beforeEach(() => {
+  jest.resetModules()
 })
 
 test('constructor', () => {
@@ -96,9 +84,22 @@ test('render the flag', () => {
  * install
  */
 
-test('install', () => {
-  const provider = new Provider('foo', 'bar')
+jest.mock('child_process')
 
+test('install', () => {
+  jest.doMock('child_process', () => {
+    return {
+      spawn() {
+        return {
+          stdout: { on(str, cb) { cb('') } },
+          stderr: { on(str, cb) { cb('') } },
+          on(str, cb) { cb(0) }
+        }
+      }
+    }
+  })
+  const ProvideModule = require('../lib/provider').default
+  const provider = new ProvideModule('foo', 'bar')
   return expect(provider.install(['baz'])).resovles
 })
 
@@ -113,7 +114,20 @@ test('install without provide lib', () => {
 })
 
 test('install failed', () => {
-  const provider = new Provider('foo', 'bar')
+  jest.doMock('child_process', () => {
+    return {
+      spawn() {
+        return {
+          stdout: { on(str, cb) { cb('') } },
+          stderr: { on(str, cb) { cb('') } },
+          on(str, cb) { cb(2) }
+        }
+      }
+    }
+  })
+
+  const ProvideModule = require('../lib/provider').default
+  const provider = new ProvideModule('foo', 'bar')
   return expect(provider.install(['baz']))
     .rejects.toThrow('Install task failed.')
 })
